@@ -7,6 +7,11 @@ import OptionsModal from "./components/OptionsModal";
 import ConfirmModal from "./components/ConfirmModal";
 import Table from "./components/Table";
 import ScrollDownTable from "./components/ScrollDownTable";
+import fileFetch from "./utils/fileFetch";
+import mutateFetch from "./utils/mutateFetch";
+import useFetch from "./utils/useFetch";
+import Loading from "./components/Loading";
+import Pagination from "./components/Paginations";
 
 function App() {
   const [changes, setChanges] = useState(0);
@@ -16,10 +21,43 @@ function App() {
   const [showOptionsModal, setShowOptionsModal] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const [fileInputData, setFileInputData] = useState<FileList | null>();
+  const [limit, setLimit] = useState(3);
+  const [pageNumber, setPageNumber] = useState(1);
+
   const handleDelete = async () => {
     setShowConfirmModal(false);
     setSuccessAlert("Data have been deleted");
   };
+
+  const handleUploadFile = async () => {
+    if (fileInputData) {
+      const data = new FormData();
+      data.append("id", "564");
+      data.append("nomor", "1");
+      data.append("surat_kuasa", fileInputData[0]);
+      await fileFetch("/api/permohonan/upload-suratkuasa", data).then((res) =>
+        console.log(res)
+      );
+    }
+  };
+
+  const handlePostData = async () => {
+    const body = {
+      email: "krisnawidyakusuma@gmail.com",
+      password: "qwerty",
+    };
+
+    await mutateFetch("/api/login", body, "POST").then((res) =>
+      console.log(res)
+    );
+  };
+
+  const { dataCount, isLoading } = useFetch(
+    "/api/reklame?limit=10&pagenumber=1",
+    changes,
+    1
+  );
 
   return (
     <div className="App">
@@ -28,7 +66,11 @@ function App() {
           <FormModal setChanges={setChanges} setShowModal={setShowFormModal} />
         )}
 
-        <div className="flex flex-col justify-center w-screen gap-3 h-screen top-1/4 overflow-auto">
+        <p className="font-semibold text-xl pt-32 pb-12 text-center">
+          Modal & Alert Testing
+        </p>
+
+        <div className="flex flex-col justify-center w-screen gap-3 top-1/4 overflow-auto">
           <button
             className="bg-red-300 rounded-md"
             onClick={() =>
@@ -65,11 +107,59 @@ function App() {
             Confirm Modal
           </button>
         </div>
-        <div className="container mx-auto pb-96">
-          <Table />
+
+        <p className="font-semibold text-xl pt-32 pb-12 text-center">
+          Fetch Testing
+        </p>
+
+        <div className="text-center py-5">
+          <input
+            type="file"
+            onChange={(e) => setFileInputData(e.target.files)}
+          />
+          <button
+            className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
+            onClick={handleUploadFile}
+          >
+            Upload
+          </button>
         </div>
-        <div className="container mx-auto pb-96">
-          <ScrollDownTable />
+
+        <div className="text-center py-5">
+          <button
+            className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
+            onClick={handlePostData}
+          >
+            Post
+          </button>
+        </div>
+
+        <p className="font-semibold text-xl pt-32 pb-12 text-center">
+          Display Component Testing
+        </p>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="container mx-auto pb-96">
+            <Table />
+          </div>
+        )}
+
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="container mx-auto pb-96">
+            <ScrollDownTable />
+          </div>
+        )}
+
+        <div className="pb-32">
+          <Pagination
+            dataCount={dataCount}
+            limit={limit}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+          />
         </div>
 
         {successAlert && (
@@ -87,13 +177,13 @@ function App() {
           />
         )}
 
-        {showOptionsModal && (
+        {showOptionsModal ? (
           <OptionsModal
             setShowEditModal={setShowFormModal}
             setShowConfirmModal={setShowConfirmModal}
             setOptionModal={setShowOptionsModal}
           />
-        )}
+        ) : null}
 
         {showConfirmModal && (
           <ConfirmModal
