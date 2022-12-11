@@ -1,0 +1,100 @@
+{
+    "data": [
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, modi.",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, modi.",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, modi.",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero corporis veritatis ex, asperiores possimus ratione.",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero corporis veritatis ex, asperiores possimus ratione.",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, modi.",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero corporis veritatis ex, asperiores possimus ratione.",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "lorem",
+            "color": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero corporis veritatis ex, asperiores possimus ratione.",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Laptop",
+            "price": 1250
+        },
+        {
+            "name": "Macbook air M1",
+            "color": "Blue",
+            "category": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero corporis veritatis ex, asperiores possimus ratione.",
+            "price": 1250
+        }
+    ]
+}
