@@ -12,6 +12,7 @@ import mutateFetch from "./utils/mutateFetch";
 import useFetch from "./utils/useFetch";
 import Loading from "./components/Loading";
 import Pagination from "./components/Paginations";
+import Layouts from "./components/Layouts";
 
 function App() {
   const [changes, setChanges] = useState(0);
@@ -62,135 +63,140 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {showFormModal && (
-          <FormModal setChanges={setChanges} setShowModal={setShowFormModal} />
-        )}
+        <Layouts>
+          {showFormModal && (
+            <FormModal
+              setChanges={setChanges}
+              setShowModal={setShowFormModal}
+            />
+          )}
 
-        <p className="font-semibold text-xl pt-32 pb-12 text-center">
-          Modal & Alert Testing
-        </p>
+          <p className="font-semibold text-xl pt-32 pb-12 text-center">
+            Modal & Alert Testing
+          </p>
 
-        <div className="flex flex-col justify-center w-screen gap-3 top-1/4 overflow-auto">
-          <button
-            className="bg-red-300 rounded-md"
-            onClick={() =>
-              setSuccessAlert("Your changes have been successfully saved!")
-            }
-          >
-            Alert Success
-          </button>
+          <div className="flex flex-col justify-center gap-3 top-1/4 overflow-auto">
+            <button
+              className="bg-red-300 rounded-md"
+              onClick={() =>
+                setSuccessAlert("Your changes have been successfully saved!")
+              }
+            >
+              Alert Success
+            </button>
 
-          <button
-            className="bg-red-300 rounded-md"
-            onClick={() =>
-              setWarningAlert("Make sure all file have been verified!")
-            }
-          >
-            Alert Warning
-          </button>
-          <button
-            className="bg-red-300 rounded-md"
-            onClick={() => setShowFormModal(true)}
-          >
-            FormModal
-          </button>
-          <button
-            className="bg-red-300 rounded-md"
-            onClick={() => setShowOptionsModal(1)}
-          >
-            Options Modal
-          </button>
-          <button
-            className="bg-red-300 rounded-md"
-            onClick={() => setShowConfirmModal(true)}
-          >
-            Confirm Modal
-          </button>
-        </div>
-
-        <p className="font-semibold text-xl pt-32 pb-12 text-center">
-          Fetch Testing
-        </p>
-
-        <div className="text-center py-5">
-          <input
-            type="file"
-            onChange={(e) => setFileInputData(e.target.files)}
-          />
-          <button
-            className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
-            onClick={handleUploadFile}
-          >
-            Upload
-          </button>
-        </div>
-
-        <div className="text-center py-5">
-          <button
-            className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
-            onClick={handlePostData}
-          >
-            Post
-          </button>
-        </div>
-
-        <p className="font-semibold text-xl pt-32 pb-12 text-center">
-          Display Component Testing
-        </p>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className="container mx-auto pb-96">
-            <Table />
+            <button
+              className="bg-red-300 rounded-md"
+              onClick={() =>
+                setWarningAlert("Make sure all file have been verified!")
+              }
+            >
+              Alert Warning
+            </button>
+            <button
+              className="bg-red-300 rounded-md"
+              onClick={() => setShowFormModal(true)}
+            >
+              FormModal
+            </button>
+            <button
+              className="bg-red-300 rounded-md"
+              onClick={() => setShowOptionsModal(1)}
+            >
+              Options Modal
+            </button>
+            <button
+              className="bg-red-300 rounded-md"
+              onClick={() => setShowConfirmModal(true)}
+            >
+              Confirm Modal
+            </button>
           </div>
-        )}
 
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className="container mx-auto pb-96">
-            <ScrollDownTable />
+          <p className="font-semibold text-xl pt-32 pb-12 text-center">
+            Fetch Testing
+          </p>
+
+          <div className="text-center py-5">
+            <input
+              type="file"
+              onChange={(e) => setFileInputData(e.target.files)}
+            />
+            <button
+              className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
+              onClick={handleUploadFile}
+            >
+              Upload
+            </button>
           </div>
-        )}
 
-        <div className="pb-32">
-          <Pagination
-            dataCount={dataCount}
-            limit={limit}
-            pageNumber={pageNumber}
-            setPageNumber={setPageNumber}
-          />
-        </div>
+          <div className="text-center py-5">
+            <button
+              className="bg-primary rounded-md px-3 py-2 text-white font-semibold"
+              onClick={handlePostData}
+            >
+              Post
+            </button>
+          </div>
 
-        {successAlert && (
-          <AlertSuccess
-            setAlertMessage={setSuccessAlert}
-            alertMessage={successAlert}
-            link="/"
-          />
-        )}
+          <p className="font-semibold text-xl pt-32 pb-12 text-center">
+            Display Component Testing
+          </p>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="container mx-auto pb-32">
+              <Table />
+            </div>
+          )}
 
-        {warningAlert && (
-          <WarningAlert
-            alertMessage={warningAlert}
-            setAlertMessage={setWarningAlert}
-          />
-        )}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="container mx-auto pb-32">
+              <ScrollDownTable />
+            </div>
+          )}
 
-        {showOptionsModal ? (
-          <OptionsModal
-            setShowEditModal={setShowFormModal}
-            setShowConfirmModal={setShowConfirmModal}
-            setOptionModal={setShowOptionsModal}
-          />
-        ) : null}
+          <div className="pb-32 container mx-auto">
+            <Pagination
+              dataCount={dataCount}
+              limit={limit}
+              pageNumber={pageNumber}
+              setPageNumber={setPageNumber}
+            />
+          </div>
 
-        {showConfirmModal && (
-          <ConfirmModal
-            handleSubmit={handleDelete}
-            setShowConfirmModal={setShowConfirmModal}
-          />
-        )}
+          {successAlert && (
+            <AlertSuccess
+              setAlertMessage={setSuccessAlert}
+              alertMessage={successAlert}
+              link="/"
+            />
+          )}
+
+          {warningAlert && (
+            <WarningAlert
+              alertMessage={warningAlert}
+              setAlertMessage={setWarningAlert}
+            />
+          )}
+
+          {showOptionsModal ? (
+            <OptionsModal
+              setShowEditModal={setShowFormModal}
+              setShowConfirmModal={setShowConfirmModal}
+              setOptionModal={setShowOptionsModal}
+            />
+          ) : null}
+
+          {showConfirmModal && (
+            <ConfirmModal
+              handleSubmit={handleDelete}
+              setShowConfirmModal={setShowConfirmModal}
+            />
+          )}
+        </Layouts>
       </BrowserRouter>
     </div>
   );

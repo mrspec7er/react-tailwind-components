@@ -46,20 +46,22 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-between border-t border-gray bg-white px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between border-t rounded-b-md border-gray bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
-        <a
-          href="/"
+        <button
+          type="button"
+          onClick={() => handleChangePage("PREV")}
           className="relative inline-flex items-center rounded-md border border-gray bg-white px-4 py-2 text-sm font-medium text-gray hover:bg-primary"
         >
           Previous
-        </a>
-        <a
-          href="/"
+        </button>
+        <button
+          type="button"
+          onClick={() => handleChangePage("NEXT")}
           className="relative ml-3 inline-flex items-center rounded-md border border-gray bg-white px-4 py-2 text-sm font-medium text-gray hover:bg-primary"
         >
           Next
-        </a>
+        </button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
