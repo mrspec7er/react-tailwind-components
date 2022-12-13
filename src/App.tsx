@@ -13,17 +13,19 @@ import useFetch from "./utils/useFetch";
 import Loading from "./components/Loading";
 import Pagination from "./components/Paginations";
 import Layouts from "./components/Layouts";
+import Card from "./components/Card";
+import CardHorizontal from "./components/CardHorizontal";
 
 function App() {
   const [changes, setChanges] = useState(0);
   const [showFormModal, setShowFormModal] = useState(false);
   const [successAlert, setSuccessAlert] = useState("");
   const [warningAlert, setWarningAlert] = useState("");
-  const [showOptionsModal, setShowOptionsModal] = useState(0);
+  const [currentID, setCurrentID] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const [fileInputData, setFileInputData] = useState<FileList | null>();
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(20);
   const [pageNumber, setPageNumber] = useState(1);
 
   const handleDelete = async () => {
@@ -55,9 +57,8 @@ function App() {
   };
 
   const { dataCount, isLoading } = useFetch(
-    "/api/reklame?limit=10&pagenumber=1",
-    changes,
-    1
+    `/v1/passenger?page=${pageNumber - 1}&size=${limit}`,
+    changes
   );
 
   return (
@@ -101,7 +102,7 @@ function App() {
             </button>
             <button
               className="bg-red-300 rounded-md"
-              onClick={() => setShowOptionsModal(1)}
+              onClick={() => setCurrentID(1)}
             >
               Options Modal
             </button>
@@ -167,6 +168,10 @@ function App() {
             />
           </div>
 
+          <Card />
+
+          <CardHorizontal />
+
           {successAlert && (
             <AlertSuccess
               setAlertMessage={setSuccessAlert}
@@ -182,11 +187,11 @@ function App() {
             />
           )}
 
-          {showOptionsModal ? (
+          {currentID ? (
             <OptionsModal
               setShowEditModal={setShowFormModal}
               setShowConfirmModal={setShowConfirmModal}
-              setOptionModal={setShowOptionsModal}
+              setCurrentID={setCurrentID}
             />
           ) : null}
 

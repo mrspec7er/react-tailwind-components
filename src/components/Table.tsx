@@ -1,94 +1,130 @@
-import product from "../utils/data.json";
 import { SlOptions } from "react-icons/sl";
 import OptionsModal from "./OptionsModal";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 import FormModal from "./FormModal";
+import useFetch from "../utils/useFetch";
+import Pagination from "./Paginations";
+import Loading from "./Loading";
+import TableHeader from "./TableHeader";
 
 const Table = () => {
-  const [showOptionModal, setShowOptionModal] = useState(0);
+  const [currentItemID, setCurrentItemID] = useState(0);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
   const [changes, setChanges] = useState(0);
+
+  const [limit, setLimit] = useState(10);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [keyword, setKeyword] = useState("");
+  const [selectOptions, setSelectOptions] = useState("");
+
+  const { dataCount, isLoading, data } = useFetch(
+    `/v1/passenger?page=${
+      pageNumber - 1
+    }&size=${limit}&keyword=${keyword}&option=${selectOptions}`,
+    changes
+  );
 
   const handleDeleteData = async () => {
     setShowDeleteConfirmModal(false);
-    console.log("data with id: " + showOptionModal + " have been deleted");
+    setCurrentItemID(0);
+    console.log("data with id: " + currentItemID + " have been deleted");
   };
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-black">
-        <thead className="text-xs text-black uppercase bg-gray">
-          <tr>
-            <th scope="col" className="py-3 px-6">
-              No
-            </th>
-            <th scope="col" className="py-3 px-6">
-              Product name
-            </th>
-            <th scope="col" className="py-3 px-6">
-              Color
-            </th>
-            <th scope="col" className="py-3 px-6">
-              Category
-            </th>
-            <th scope="col" className="py-3 px-6">
-              Price
-            </th>
-            <th scope="col" className="py-3 px-6">
-              <span className="sr-only">Edit</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {product.data.map((i, n) => (
-            <tr
-              key={n}
-              className={`${
-                n % 2 === 0 ? "bg-white" : "bg-gray"
-              } border-b hover:bg-secondary`}
-            >
-              <th scope="row" className="py-4 px-6 font-medium text-black">
-                {n + 1}
-              </th>
-              <th scope="row" className="py-4 px-6 font-medium text-black">
-                {i.name}
-              </th>
-              <td className="py-4 px-6">{i.color}</td>
-              <td className="py-4 px-6">{i.category}</td>
-              <td className="py-4 px-6">${i.price}</td>
-              <td className="py-4 px-6 text-right">
-                {showOptionModal === n + 1 && (
-                  <OptionsModal
-                    setShowEditModal={setShowEditModal}
-                    setOptionModal={setShowOptionModal}
-                    setShowConfirmModal={setShowDeleteConfirmModal}
-                  />
-                )}
-                <SlOptions
-                  onClick={() => setShowOptionModal(n + 1)}
-                  className="text-xl font-semibold"
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {showDeleteConfirmModal && (
-        <ConfirmModal
-          handleSubmit={handleDeleteData}
-          setShowConfirmModal={setShowDeleteConfirmModal}
-        />
-      )}
+    <>
+      <TableHeader
+        keyword={keyword}
+        limit={limit}
+        setKeyword={setKeyword}
+        setLimit={setLimit}
+        setPage={setPageNumber}
+        setSelectOptions={setSelectOptions}
+      />
+      <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <table className="w-full text-sm text-left text-black">
+            <thead className="text-xs text-black uppercase bg-gray">
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  No
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Product name
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Color
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Category
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Price
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  <span className="sr-only">Edit</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((i, n) => (
+                <tr
+                  key={n}
+                  className={`${
+                    n % 2 === 0 ? "bg-white" : "bg-gray"
+                  } border-b hover:bg-secondary`}
+                >
+                  <th scope="row" className="py-4 px-6 font-medium text-black">
+                    {n + 1 + (pageNumber - 1) * limit}
+                  </th>
+                  <th scope="row" className="py-4 px-6 font-medium text-black">
+                    {i.name}
+                  </th>
+                  <td className="py-4 px-6">{i.airline[0].country}</td>
+                  <td className="py-4 px-6">{i.airline[0].slogan}</td>
+                  <td className="py-4 px-6">${i.trips}</td>
+                  <td className="py-4 px-6 text-right">
+                    {currentItemID === n + 1 && (
+                      <OptionsModal
+                        setShowEditModal={setShowFormModal}
+                        setCurrentID={setCurrentItemID}
+                        setShowConfirmModal={setShowDeleteConfirmModal}
+                      />
+                    )}
+                    <SlOptions
+                      onClickCapture={() => setCurrentItemID(n + 1)}
+                      className="text-xl font-semibold"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {showDeleteConfirmModal && (
+          <ConfirmModal
+            handleSubmit={handleDeleteData}
+            setShowConfirmModal={setShowDeleteConfirmModal}
+          />
+        )}
 
-      {showEditModal && (
-        <FormModal
-          setChanges={setChanges}
-          setShowModal={setShowEditModal}
-          id={showOptionModal}
-        />
-      )}
-    </div>
+        {showFormModal && (
+          <FormModal
+            setChanges={setChanges}
+            setShowModal={setShowFormModal}
+            id={currentItemID}
+          />
+        )}
+      </div>
+      <Pagination
+        dataCount={dataCount}
+        limit={limit}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+      />
+    </>
   );
 };
 

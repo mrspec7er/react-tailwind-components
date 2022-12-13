@@ -6,14 +6,14 @@ import ConfirmModal from "./ConfirmModal";
 import FormModal from "./FormModal";
 
 const ScrollDownTable = () => {
-  const [showOptionModal, setShowOptionModal] = useState(0);
+  const [currentID, setCurrentID] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [changes, setChanges] = useState(0);
 
   const handleDeleteData = async () => {
     setShowConfirmModal(false);
-    console.log("data with id: " + showOptionModal + " have been deleted");
+    console.log("data with id: " + currentID + " have been deleted");
   };
   return (
     <div className="overflow-x-auto max-h-[30vh] relative shadow-md sm:rounded-lg">
@@ -58,15 +58,15 @@ const ScrollDownTable = () => {
               <td className="py-4 px-6">{i.category}</td>
               <td className="py-4 px-6">${i.price}</td>
               <td className="py-4 px-6 text-right">
-                {showOptionModal === n + 1 && (
+                {currentID === n + 1 && (
                   <OptionsModal
                     setShowEditModal={setShowEditModal}
-                    setOptionModal={setShowOptionModal}
+                    setCurrentID={setCurrentID}
                     setShowConfirmModal={setShowConfirmModal}
                   />
                 )}
                 <SlOptions
-                  onClick={() => setShowOptionModal(n + 1)}
+                  onClick={() => setCurrentID(n + 1)}
                   className="text-xl font-semibold"
                 />
               </td>
@@ -84,7 +84,7 @@ const ScrollDownTable = () => {
         <FormModal
           setChanges={setChanges}
           setShowModal={setShowEditModal}
-          id={showOptionModal}
+          id={currentID}
         />
       )}
     </div>

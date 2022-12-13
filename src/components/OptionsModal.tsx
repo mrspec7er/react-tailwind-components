@@ -1,12 +1,12 @@
 import { FiEdit, FiDelete, FiInfo } from "react-icons/fi";
 interface OptionsModalProps {
-  setOptionModal: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentID: React.Dispatch<React.SetStateAction<number>>;
   setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const OptionsModal = ({
-  setOptionModal,
+  setCurrentID,
   setShowConfirmModal,
   setShowEditModal,
 }: OptionsModalProps) => {
@@ -14,13 +14,21 @@ const OptionsModal = ({
     <div
       id="popup-modal"
       tabIndex={-1}
-      onClickCapture={() => setOptionModal(0)}
+      onClick={() => {
+        setCurrentID(0);
+      }}
       className="flex justify-center fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-20 p-4 overflow-x-hidden overflow-y-auto h-screen w-screen"
     >
-      <div className="relative w-[60vw] h-max top-1/4 flex justify-center">
+      <div
+        onClick={() => console.log("Unreset ID")}
+        className="relative w-[60vw] h-max top-1/4 flex justify-center"
+      >
         <div className="relative bg-white md:w-[15vw] py-5 w-screen rounded-lg shadow-lg">
           <div
-            onClickCapture={() => setShowEditModal(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowEditModal(true);
+            }}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiEdit className="text-xl" />
@@ -29,7 +37,10 @@ const OptionsModal = ({
             </button>
           </div>
           <div
-            onClickCapture={() => setShowConfirmModal(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowConfirmModal(true);
+            }}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiDelete className="text-xl" />
@@ -38,7 +49,10 @@ const OptionsModal = ({
             </button>
           </div>
           <div
-            onClickCapture={() => console.log("Button Detail Clicked")}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("Button Detail Clicked");
+            }}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiInfo className="text-xl" />

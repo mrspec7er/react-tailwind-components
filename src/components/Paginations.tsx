@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 
 interface PaginationsProps {
@@ -14,20 +14,29 @@ export default function Pagination({
   pageNumber,
   setPageNumber,
 }: PaginationsProps) {
-  const pageNumberList = [];
   const pageCount = Math.ceil(dataCount / limit);
 
-  for (let i = 1; i <= pageCount; i++) {
-    if (
-      i < 3 ||
-      (i > pageNumber - 2 && i < pageNumber + 2) ||
-      i > pageCount - 2
-    ) {
-      pageNumberList.push(i);
-    } else if (i === pageNumber - 2 || i === pageNumber + 2) {
-      pageNumberList.push(0);
+  const getPageNumber = (pageCount: number, pageNumber: number) => {
+    const storePageNumber: Array<number> = [];
+    for (let i = 1; i <= pageCount; i++) {
+      if (
+        i < 3 ||
+        (i > pageNumber - 2 && i < pageNumber + 2) ||
+        i > pageCount - 2
+      ) {
+        storePageNumber.push(i);
+      } else if (i === pageNumber - 2 || i === pageNumber + 2) {
+        storePageNumber.push(0);
+      }
     }
-  }
+
+    return storePageNumber;
+  };
+
+  const pageNumberList = useMemo(
+    () => getPageNumber(pageCount, pageNumber),
+    [pageNumber, pageCount]
+  );
 
   const handleChangePage = (changesType: "NEXT" | "PREV" | number) => {
     if (changesType === "NEXT") {

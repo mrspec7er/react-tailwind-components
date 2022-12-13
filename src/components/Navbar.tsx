@@ -9,7 +9,7 @@ const Navbar = ({
   const [profileMenu, setProfileMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   return (
-    <nav className="bg-white border-secondary px-2 sm:px-4 py-2.5 rounded">
+    <nav className="bg-white sticky top-0 border-secondary px-2 sm:px-4 py-2.5 rounded z-20">
       <div className="flex flex-wrap items-center justify-between mx-auto">
         <Link to="https://flowbite.com/" className="flex items-center">
           <GiHamburgerMenu

@@ -35,7 +35,7 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
       } bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-30 w-full md:inset-0 h-screen`}
     >
       <div className="relative pt-5 w-screen flex justify-center">
-        <div className="relative bg-white md:w-[70vw] w-screen rounded-lg shadow">
+        <div className="relative bg-white md:w-[70vw] w-[95vw] rounded-lg shadow">
           <div className="flex justify-between items-start p-5 py-7 rounded-t border-b">
             <h3 className="text-2xl font-semibold text-gray-900">Form Data</h3>
             <button
