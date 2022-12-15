@@ -22,6 +22,7 @@ function App() {
   const [successAlert, setSuccessAlert] = useState("");
   const [warningAlert, setWarningAlert] = useState("");
   const [currentID, setCurrentID] = useState(0);
+  const [optionModal, setOptionModal] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const [fileInputData, setFileInputData] = useState<FileList | null>();
@@ -29,7 +30,6 @@ function App() {
   const [pageNumber, setPageNumber] = useState(1);
 
   const handleDelete = async () => {
-    setShowConfirmModal(false);
     setSuccessAlert("Data have been deleted");
   };
 
@@ -56,7 +56,7 @@ function App() {
     );
   };
 
-  const { dataCount, isLoading } = useFetch(
+  const { data, isLoading } = useFetch(
     `/v1/passenger?page=${pageNumber - 1}&size=${limit}`,
     changes
   );
@@ -102,7 +102,10 @@ function App() {
             </button>
             <button
               className="bg-red-300 rounded-md"
-              onClick={() => setCurrentID(1)}
+              onClick={() => {
+                setCurrentID(1);
+                setOptionModal(1);
+              }}
             >
               Options Modal
             </button>
@@ -161,16 +164,19 @@ function App() {
 
           <div className="pb-32 container mx-auto">
             <Pagination
-              dataCount={dataCount}
+              dataCount={data.dataCount}
               limit={limit}
               pageNumber={pageNumber}
               setPageNumber={setPageNumber}
             />
           </div>
 
-          <Card />
-
-          <CardHorizontal />
+          <div className="pb-32 container mx-auto">
+            <Card />
+          </div>
+          <div className="pb-32 container mx-auto">
+            <CardHorizontal />
+          </div>
 
           {successAlert && (
             <AlertSuccess
@@ -187,11 +193,11 @@ function App() {
             />
           )}
 
-          {currentID ? (
+          {optionModal ? (
             <OptionsModal
               setShowEditModal={setShowFormModal}
               setShowConfirmModal={setShowConfirmModal}
-              setCurrentID={setCurrentID}
+              setOptionModal={setOptionModal}
             />
           ) : null}
 

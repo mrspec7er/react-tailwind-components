@@ -13,7 +13,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
   const [showSecondLink, setShowSecondLink] = useState(false);
   return showSidebar ? (
     <div
-      className="w-72 h-screen sticky top-0 shadow-md bg-white"
+      className="w-96 h-screen sticky top-0 shadow-md bg-white"
       id="sidenavSecExample"
     >
       <div className="pt-4 pb-2 px-6">

@@ -1,4 +1,4 @@
-import { BsPlusLg } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
@@ -22,7 +22,7 @@ const TableHeader = ({
       <div className="p-5 flex gap-3 justify-between flex-col md:flex-row md:text-base text-sm bg-white">
         <Link to="/registrasi">
           <button className="bg-primary md:font-semibold font-medium flex justify-center items-center gap-3 text-white rounded-lg md:w-40 w-full md:h-12 h-10">
-            <BsPlusLg className="font-extrabold" />
+            <FaPlus className="text-xl" />
             <span>Entry New Data</span>
           </button>
         </Link>

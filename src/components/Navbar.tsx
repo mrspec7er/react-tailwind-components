@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { BiLogOut } from "react-icons/bi";
 import { Link } from "react-router-dom";
 const Navbar = ({
   setShowSidebar,
@@ -40,11 +41,11 @@ const Navbar = ({
             } my-4 text-base list-none bg-white divide-y relative divide-gray rounded shadow`}
             id="user-dropdown"
           >
-            <div className="px-4 py-3 absolute bg-white right-12">
-              <span className="block text-sm text-black">Bonnie Green</span>
-              <span className="block text-sm font-medium text-black truncate">
-                name@flowbite.com
+            <div className="px-4 py-3 absolute bg-gray right-12 rounded flex items-center gap-2 text-orange">
+              <span className="text-lg">
+                <BiLogOut />
               </span>
+              <span className="text-sm font-medium truncate">Logout</span>
             </div>
           </div>
           <button

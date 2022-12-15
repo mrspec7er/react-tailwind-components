@@ -1,12 +1,12 @@
 import { FiEdit, FiDelete, FiInfo } from "react-icons/fi";
 interface OptionsModalProps {
-  setCurrentID: React.Dispatch<React.SetStateAction<number>>;
+  setOptionModal: React.Dispatch<React.SetStateAction<number>>;
   setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const OptionsModal = ({
-  setCurrentID,
+  setOptionModal,
   setShowConfirmModal,
   setShowEditModal,
 }: OptionsModalProps) => {
@@ -15,7 +15,7 @@ const OptionsModal = ({
       id="popup-modal"
       tabIndex={-1}
       onClick={() => {
-        setCurrentID(0);
+        setOptionModal(0);
       }}
       className="flex justify-center fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-20 p-4 overflow-x-hidden overflow-y-auto h-screen w-screen"
     >
@@ -25,10 +25,7 @@ const OptionsModal = ({
       >
         <div className="relative bg-white md:w-[15vw] py-5 w-screen rounded-lg shadow-lg">
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowEditModal(true);
-            }}
+            onClick={() => setShowEditModal(true)}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiEdit className="text-xl" />
@@ -37,10 +34,7 @@ const OptionsModal = ({
             </button>
           </div>
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowConfirmModal(true);
-            }}
+            onClick={() => setShowConfirmModal(true)}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiDelete className="text-xl" />
@@ -49,10 +43,7 @@ const OptionsModal = ({
             </button>
           </div>
           <div
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log("Button Detail Clicked");
-            }}
+            onClick={() => console.log("Button Detail Clicked")}
             className="flex justify-center gap-7 my-2 items-center text-lg hover:bg-gray font-medium rounded-md mx-2"
           >
             <FiInfo className="text-xl" />

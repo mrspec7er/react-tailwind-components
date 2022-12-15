@@ -13,13 +13,13 @@ const WarningAlert = ({ alertMessage, setAlertMessage }: WarningAlertProps) => {
       <div className="relative w-full h-full max-w-md top-1/4">
         <div
           id="alert-additional-content-2"
-          className="p-4 mb-4 border border-red rounded-lg bg-white"
+          className="p-4 mb-4 border border-orange rounded-lg bg-white"
           role="alert"
         >
           <div className="flex items-center">
             <svg
               aria-hidden="true"
-              className="w-5 h-5 mr-2 text-red dark:text-red"
+              className="w-5 h-5 mr-2 text-orange"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -31,18 +31,14 @@ const WarningAlert = ({ alertMessage, setAlertMessage }: WarningAlertProps) => {
               ></path>
             </svg>
             <span className="sr-only">Info</span>
-            <h3 className="text-lg font-medium text-red dark:text-red">
-              Warning!
-            </h3>
+            <h3 className="text-lg font-medium text-orange">Warning!</h3>
           </div>
-          <div className="mt-2 mb-4 text-sm text-red dark:text-red">
-            {alertMessage}
-          </div>
+          <div className="mt-2 mb-4 text-sm text-black">{alertMessage}</div>
           <div>
             <button
               onClick={() => setAlertMessage("")}
               type="button"
-              className="text-white bg-red hover:bg-red focus:ring-4 focus:outline-none focus:ring-red font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-red dark:hover:bg-red"
+              className="text-white bg-red hover:bg-orange focus:ring-4 focus:outline-none focus:ring-red font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center"
             >
               OK
             </button>

@@ -10,6 +10,7 @@ import TableHeader from "./TableHeader";
 
 const Table = () => {
   const [currentItemID, setCurrentItemID] = useState(0);
+  const [optionModal, setOptionModal] = useState(0);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
   const [changes, setChanges] = useState(0);
@@ -19,7 +20,7 @@ const Table = () => {
   const [keyword, setKeyword] = useState("");
   const [selectOptions, setSelectOptions] = useState("");
 
-  const { dataCount, isLoading, data } = useFetch(
+  const { isLoading, data } = useFetch(
     `/v1/passenger?page=${
       pageNumber - 1
     }&size=${limit}&keyword=${keyword}&option=${selectOptions}`,
@@ -27,7 +28,6 @@ const Table = () => {
   );
 
   const handleDeleteData = async () => {
-    setShowDeleteConfirmModal(false);
     setCurrentItemID(0);
     console.log("data with id: " + currentItemID + " have been deleted");
   };
@@ -69,7 +69,7 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((i, n) => (
+              {data?.data.map((i, n) => (
                 <tr
                   key={n}
                   className={`${
@@ -86,16 +86,19 @@ const Table = () => {
                   <td className="py-4 px-6">{i.airline[0].slogan}</td>
                   <td className="py-4 px-6">${i.trips}</td>
                   <td className="py-4 px-6 text-right">
-                    {currentItemID === n + 1 && (
+                    {optionModal === n + 1 && (
                       <OptionsModal
                         setShowEditModal={setShowFormModal}
-                        setCurrentID={setCurrentItemID}
+                        setOptionModal={setOptionModal}
                         setShowConfirmModal={setShowDeleteConfirmModal}
                       />
                     )}
                     <SlOptions
-                      onClickCapture={() => setCurrentItemID(n + 1)}
-                      className="text-xl font-semibold"
+                      onClickCapture={() => {
+                        setCurrentItemID(n + 1);
+                        setOptionModal(n + 1);
+                      }}
+                      className="text-2xl font-semibold hover:text-orange hover:scale-150"
                     />
                   </td>
                 </tr>
@@ -119,7 +122,7 @@ const Table = () => {
         )}
       </div>
       <Pagination
-        dataCount={dataCount}
+        dataCount={data.dataCount}
         limit={limit}
         pageNumber={pageNumber}
         setPageNumber={setPageNumber}

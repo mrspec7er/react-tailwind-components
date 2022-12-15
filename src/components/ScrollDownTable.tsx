@@ -8,6 +8,7 @@ import FormModal from "./FormModal";
 const ScrollDownTable = () => {
   const [currentID, setCurrentID] = useState(0);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [optionModal, setOptionModal] = useState(0);
   const [showEditModal, setShowEditModal] = useState(false);
   const [changes, setChanges] = useState(0);
 
@@ -58,15 +59,18 @@ const ScrollDownTable = () => {
               <td className="py-4 px-6">{i.category}</td>
               <td className="py-4 px-6">${i.price}</td>
               <td className="py-4 px-6 text-right">
-                {currentID === n + 1 && (
+                {optionModal === n + 1 && (
                   <OptionsModal
                     setShowEditModal={setShowEditModal}
-                    setCurrentID={setCurrentID}
+                    setOptionModal={setOptionModal}
                     setShowConfirmModal={setShowConfirmModal}
                   />
                 )}
                 <SlOptions
-                  onClick={() => setCurrentID(n + 1)}
+                  onClick={() => {
+                    setCurrentID(n + 1);
+                    setOptionModal(n + 1);
+                  }}
                   className="text-xl font-semibold"
                 />
               </td>

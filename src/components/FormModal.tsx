@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ConfirmModal from "./ConfirmModal";
+import WarningAlert from "./WarningAlert";
 
 interface FormModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,22 +9,53 @@ interface FormModalProps {
 }
 
 const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
+  // Input element state
+  const fieldTextInputRef = useRef<HTMLInputElement | null>(null);
+  const fieldTextAreaInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const fieldSelectInputRef = useRef<HTMLSelectElement | null>(null);
+  const fieldDateInputRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     if (id) {
       console.log(id);
+      //Set input element value
+      fieldTextInputRef.current!.value = "VALUE AVAILABLE";
     }
   }, [id]);
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleSubmit = async () => {
     setShowConfirmModal(false);
-    setShowModal(false);
 
     //Submit Form Logic
-    console.log("Form Submited");
+    const isInputvalid = handleValidateInputForm();
+    if (isInputvalid) {
+      setShowModal(false);
 
-    setChanges((current) => current + 1);
+      console.log(fieldTextInputRef.current?.value);
+      console.log(fieldTextAreaInputRef.current?.value);
+      console.log(fieldSelectInputRef.current?.value);
+      console.log(fieldDateInputRef.current?.valueAsDate);
+
+      setChanges((current) => current + 1);
+    } else {
+      console.log("Invalid Form");
+    }
+  };
+
+  const handleValidateInputForm = () => {
+    if (
+      fieldTextInputRef.current?.value &&
+      fieldTextInputRef.current?.value.length < 10
+    ) {
+      setAlertMessage("Text length need atleast 10 character");
+      fieldTextInputRef.current!.classList.add("border-primary");
+      return false;
+    }
+    console.log("Next Step");
+    return true;
   };
 
   return (
@@ -68,39 +100,39 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
                 e.preventDefault();
                 setShowConfirmModal(true);
               }}
-              className="py-7 font-medium"
+              className="py-7 font-medium pl-20"
             >
               <div className="flex md:flex-row flex-col md:gap-12 gap-1 items-center pb-7">
-                <label className="md:w-52 w-full" htmlFor="no-registrasi">
+                <label className="md:w-32 w-full" htmlFor="no-registrasi">
                   Text Input
                 </label>
                 <input
                   required
-                  onChange={(e) => console.log(e.target.value)}
-                  className="w-full hover:bg-secondary rounded-md border px-7 h-12 border-grey"
+                  ref={fieldTextInputRef}
+                  className="w-full md:w-96 hover:bg-secondary rounded-md border px-7 h-12"
                   type="text"
                   placeholder="Input text..."
                 />
               </div>
               <div className="flex md:flex-row flex-col md:gap-12 gap-1 items-center pb-7">
-                <label className="md:w-52 w-full" htmlFor="no-registrasi">
+                <label className="md:w-32 w-full" htmlFor="no-registrasi">
                   TextArea Inut
                 </label>
                 <textarea
                   required
-                  onChange={(e) => console.log(e.target.value)}
+                  ref={fieldTextAreaInputRef}
                   placeholder="Input Data..."
-                  className="w-full hover:bg-secondary rounded-md border px-7 h-20 border-grey"
+                  className="w-full md:w-96 hover:bg-secondary rounded-md border px-7 h-20"
                 ></textarea>
               </div>
               <div className="flex md:flex-row flex-col md:gap-12 gap-1 items-center pb-7">
-                <label className="md:w-52 w-full" htmlFor="no-registrasi">
+                <label className="md:w-32 w-full" htmlFor="no-registrasi">
                   Select Input
                 </label>
                 <select
-                  onChange={(e) => console.log(e.target.value)}
                   id="countries"
-                  className="bg-gray-50 h-12 border border-grey text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  ref={fieldSelectInputRef}
+                  className="bg-gray-50 h-12 border text-sm rounded-lg focus:ring-blue focus:border-blue block w-full md:w-96 p-2.5"
                 >
                   <option value="US">Jenis 1</option>
                   <option value="CA">Jenis 2</option>
@@ -108,13 +140,13 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
                 </select>
               </div>
               <div className="flex md:flex-row flex-col md:gap-12 gap-1 items-center pb-7">
-                <label className="md:w-52 w-full" htmlFor="no-registrasi">
+                <label className="md:w-32 w-full" htmlFor="no-registrasi">
                   Date Input
                 </label>
                 <input
                   required
-                  onChange={(e) => console.log(e.target.value)}
-                  className="w-full hover:bg-secondary rounded-md border px-7 h-12 border-grey"
+                  ref={fieldDateInputRef}
+                  className="w-full md:w-96 hover:bg-secondary rounded-md border px-7 h-12"
                   type="date"
                   placeholder="Masukan tanggal mulai pemasangan reklame..."
                 />
@@ -122,7 +154,7 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
             </form>
           </div>
 
-          <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray-200">
+          <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray">
             <button
               onClick={() => {
                 setShowModal(false);
@@ -135,7 +167,7 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
             <button
               type="submit"
               form="formID"
-              className="bg-primary mb-5 font-semibold flex justify-center items-center gap-3 text-white rounded-md w-32 h-10 bg-orange-500"
+              className="bg-primary mb-5 font-semibold flex justify-center items-center gap-3 text-white rounded-md w-32 h-10"
             >
               <span>Simpan</span>
             </button>
@@ -147,6 +179,13 @@ const FormModal = ({ setShowModal, id, setChanges }: FormModalProps) => {
         <ConfirmModal
           handleSubmit={handleSubmit}
           setShowConfirmModal={setShowConfirmModal}
+        />
+      )}
+
+      {alertMessage && (
+        <WarningAlert
+          alertMessage={alertMessage}
+          setAlertMessage={setAlertMessage}
         />
       )}
     </div>
