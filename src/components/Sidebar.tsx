@@ -59,7 +59,7 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
             aria-controls="collapseSidenavSecEx2"
           >
             <MdAlarmOn className="text-2xl" />
-            <span>Collapsible item 1</span>
+            <span>Components Menu</span>
             {!showFirstLink ? (
               <MdKeyboardArrowRight
                 className="text-2xl"
@@ -82,22 +82,22 @@ const Sidebar = ({ showSidebar }: { showSidebar: boolean }) => {
           >
             <li className="relative">
               <Link
-                to="/"
+                to="/alerts"
                 className="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-black text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
                 data-mdb-ripple="true"
                 data-mdb-ripple-color="primary"
               >
-                Link 1
+                Alerts
               </Link>
             </li>
             <li className="relative">
               <Link
-                to="/"
+                to="/fetch"
                 className="flex items-center text-xs py-4 pl-12 pr-6 h-6 overflow-hidden text-black text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
                 data-mdb-ripple="true"
                 data-mdb-ripple-color="primary"
               >
-                Link 2
+                Fetch
               </Link>
             </li>
           </ul>

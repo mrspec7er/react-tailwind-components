@@ -1,70 +1,16 @@
-import React, { useState } from "react";
-import AlertSuccess from "./components/AlertSuccess";
-import FormModal from "./components/FormModal";
-import { BrowserRouter } from "react-router-dom";
-import WarningAlert from "./components/WarningAlert";
-import OptionsModal from "./components/OptionsModal";
-import ConfirmModal from "./components/ConfirmModal";
-import Table from "./components/Table";
-import ScrollDownTable from "./components/ScrollDownTable";
-import fileFetch from "./utils/fileFetch";
-import mutateFetch from "./utils/mutateFetch";
-import useFetch from "./utils/useFetch";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Loading from "./components/Loading";
-import Pagination from "./components/Paginations";
-import Layouts from "./components/Layouts";
-import Card from "./components/Card";
-import CardHorizontal from "./components/CardHorizontal";
+
+const Display = lazy(() => import("./pages/Display"));
+const ModalAlert = lazy(() => import("./pages/ModalAlert"));
+const Fetch = lazy(() => import("./pages/Fetch"));
 
 function App() {
-  const [changes, setChanges] = useState(0);
-  const [showFormModal, setShowFormModal] = useState(false);
-  const [successAlert, setSuccessAlert] = useState("");
-  const [warningAlert, setWarningAlert] = useState("");
-  const [currentID, setCurrentID] = useState(0);
-  const [optionModal, setOptionModal] = useState(0);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  const [fileInputData, setFileInputData] = useState<FileList | null>();
-  const [limit, setLimit] = useState(20);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const handleDelete = async () => {
-    setSuccessAlert("Data have been deleted");
-  };
-
-  const handleUploadFile = async () => {
-    if (fileInputData) {
-      const data = new FormData();
-      data.append("id", "564");
-      data.append("nomor", "1");
-      data.append("surat_kuasa", fileInputData[0]);
-      await fileFetch("/api/permohonan/upload-suratkuasa", data).then((res) =>
-        console.log(res)
-      );
-    }
-  };
-
-  const handlePostData = async () => {
-    const body = {
-      email: "krisnawidyakusuma@gmail.com",
-      password: "qwerty",
-    };
-
-    await mutateFetch("/api/login", body, "POST").then((res) =>
-      console.log(res)
-    );
-  };
-
-  const { data, isLoading } = useFetch(
-    `/v1/passenger?page=${pageNumber - 1}&size=${limit}`,
-    changes
-  );
-
   return (
     <div className="App">
       <BrowserRouter>
-        <Layouts>
+        {/* <Layouts>
           {showFormModal && (
             <FormModal
               setChanges={setChanges}
@@ -207,7 +153,33 @@ function App() {
               setShowConfirmModal={setShowConfirmModal}
             />
           )}
-        </Layouts>
+        </Layouts> */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Display />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/alerts"
+            element={
+              <Suspense fallback={<Loading />}>
+                <ModalAlert />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/fetch"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Fetch />
+              </Suspense>
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </div>
   );

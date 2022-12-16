@@ -18,6 +18,7 @@ const Navbar = ({
           />
         </Link>
         <div className="flex items-center md:order-2">
+          <p className="text-black px-5">Username</p>
           <button
             onClick={() => setProfileMenu((current) => !current)}
             type="button"
@@ -90,34 +91,18 @@ const Navbar = ({
             </li>
             <li>
               <Link
-                to="/"
+                to="/alerts"
                 className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent md:text-black md:p-0"
               >
-                About
+                Alerts
               </Link>
             </li>
             <li>
               <Link
-                to="/"
+                to="/fetch"
                 className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent md:text-black md:p-0"
               >
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent md:text-black md:p-0"
-              >
-                Pricing
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block py-2 pl-3 pr-4 text-black rounded md:bg-transparent md:text-black md:p-0"
-              >
-                Contact
+                Fetch
               </Link>
             </li>
           </ul>

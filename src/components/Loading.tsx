@@ -1,6 +1,9 @@
 const Loading = () => {
   return (
-    <div role="status" className="flex justify-center">
+    <div
+      role="status"
+      className="flex justify-center w-full h-[50vh] items-center"
+    >
       <svg
         className="inline mr-2 w-32 h-32 text-gray-200 animate-spin dark:text-gray fill-blue"
         viewBox="0 0 100 101"
