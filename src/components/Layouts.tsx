@@ -12,7 +12,7 @@ const Layouts = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex max-w-[100vw]">
       <Sidebar showSidebar={showSidebar} />
-      <div className="w-full">
+      <div className="w-full overflow-hidden">
         <Navbar setShowSidebar={setShowSidebar} />
         <div>{children}</div>
       </div>
