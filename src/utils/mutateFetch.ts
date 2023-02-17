@@ -38,24 +38,21 @@ const mutateFetch = async (
               "refresh_token",
               `${result.data.refresh_token}`
             );
-          })
-          .then(() => {
             return tokenExpiredCode;
           });
+
         return status;
-      } else {
-        return res.json();
       }
+
+      return res.json();
     })
     .then((result) => {
-      return result;
+      if (result === tokenExpiredCode) {
+        mutateFetch(url, body, method);
+      } else {
+        return result;
+      }
     });
-
-  if (data === tokenExpiredCode) {
-    mutateFetch(url, body, method);
-  } else {
-    return data;
-  }
 };
 
 export default mutateFetch;
