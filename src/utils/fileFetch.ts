@@ -1,57 +1,51 @@
-const base_url = "http://103.183.75.217:3000";
-const refresh_token_url = "/auth/refreshToken";
+const base_url = import.meta.env.VITE_BASE_URL;
 
-const fileFetch = async (url: string, body: FormData) => {
-  const access_token = localStorage.getItem("access_token");
-  const refresh_token = localStorage.getItem("refresh_token");
-  const tokenExpiredCode = 401;
+const mutateFetch = async (
+  url: string,
+  body: Object,
+  method: "POST" | "PUT" | "DELETE",
+  refreshToken?: string
+) => {
+  const access_token = localStorage.getItem("accessToken");
+  const tokenExpiredCode = 406;
 
-  const data = await fetch(`${base_url + url}`, {
-    method: "POST",
+  return await fetch(`${base_url + url}`, {
+    method: method,
     headers: {
-      Authorization: "Bearer " + access_token,
+      "Content-Type": "application/json",
+      "x-access-token": refreshToken || access_token!,
     },
-    body,
-  })
-    .then((res) => {
-      // If token expired, hit refresh token api and rerun the function
-      if (res.status === tokenExpiredCode) {
-        const status = fetch(base_url + refresh_token_url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            refresh_token,
-          }),
+    body: JSON.stringify({ ...body }),
+  }).then((res) => {
+    // If token expired, hit refresh token api and rerun the function
+    if (res.status === tokenExpiredCode) {
+      const refresf_token = localStorage.getItem("accessToken");
+      mutateFetch(
+        "refresh-token-url",
+        { userCredential: "unknown" },
+        "POST",
+        refresf_token!
+      )
+        .then((res) => {
+          if (!res.ok) {
+            console.log("Token Expired");
+            return (window.location.href = "/login");
+          }
+          return res.json();
         })
-          .then((res) => res.json())
-          .then((result) => {
-            // Refresh access token in local storage
-            localStorage.setItem("access_token", `${result.data.access_token}`);
-            localStorage.setItem(
-              "refresh_token",
-              `${result.data.refresh_token}`
-            );
-          })
-          .then(() => {
-            return tokenExpiredCode;
-          });
+        .then((result) => {
+          localStorage.setItem("accessToken", result.accessToken);
+          localStorage.setItem("refreshToken", result.refreshToken);
+          mutateFetch(url, body, "POST");
+        });
+      return (window.location.href = "/login");
+    }
+    if (!res.ok) {
+      throw new Error("Request Failed");
+    }
 
-        return status;
-      } else {
-        return res.json();
-      }
-    })
-    .then((result) => {
-      return result;
-    });
-
-  if (data === tokenExpiredCode) {
-    fileFetch(url, body);
-  } else {
-    return data;
-  }
+    return res.json();
+  });
 };
 
-export default fileFetch;
+export default mutateFetch;
