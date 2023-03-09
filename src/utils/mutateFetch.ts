@@ -19,12 +19,12 @@ const mutateFetch = async (
   }).then((res) => {
     // If token expired, hit refresh token api and rerun the function
     if (res.status === tokenExpiredCode) {
-      const refresf_token = localStorage.getItem("accessToken");
+      const refresh_token = localStorage.getItem("refreshToken");
       mutateFetch(
         "refresh-token-url",
         { userCredential: "unknown" },
         "POST",
-        refresf_token!
+        refresh_token!
       )
         .then((res) => {
           if (!res.ok) {
